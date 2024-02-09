@@ -5,7 +5,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "id" : "A0001",
+  "id" : "A0010",
   "name" : "Mac Book Pro 15",
   "price" : 30000000,
   "quantity" : 10
@@ -69,3 +69,23 @@ Accept: application/json
   "price": 0,
   "quantity": -10
 }
+
+### Delete Product
+
+DELETE http://localhost:8080/api/products/A0001
+Accept: application/json
+
+### List Product
+
+GET http://localhost:8080/api/products
+Accept: application/json
+
+### List Product with size parameter
+
+GET http://localhost:8080/api/products?size=5
+Accept: application/json
+
+### List Product with size and page parameter
+
+GET http://localhost:8080/api/products?size=5&page=1
+Accept: application/json
