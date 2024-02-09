@@ -4,6 +4,7 @@ import akun.rusak.kotlin.restful.entity.Product
 import akun.rusak.kotlin.restful.error.NotFoundException
 import akun.rusak.kotlin.restful.model.CreateProductRequest
 import akun.rusak.kotlin.restful.model.ProductResponse
+import akun.rusak.kotlin.restful.model.UpdateProductRequest
 import akun.rusak.kotlin.restful.repository.ProductRepository
 import akun.rusak.kotlin.restful.service.ProductService
 import akun.rusak.kotlin.restful.validation.ValidationUtil
@@ -40,6 +41,27 @@ class ProductServiceImpl(
             return convertProductToProductResponse(product)
         }
     }
+
+    override fun update(id: String, updateProductRequest: UpdateProductRequest): ProductResponse {
+        val product = productRepository.findByIdOrNull(id)
+        if (product == null){
+            throw NotFoundException()
+        }
+
+        validationUtil.validate(updateProductRequest)
+
+        product.apply {
+            name = updateProductRequest.name!!
+            price = updateProductRequest.price!!
+            quantity = updateProductRequest.quantity!!
+            updatedAT = Date()
+        }
+
+        productRepository.save(product)
+
+        return convertProductToProductResponse(product)
+    }
+
     private fun convertProductToProductResponse(product: Product): ProductResponse {
         return ProductResponse(
             id = product.id,
